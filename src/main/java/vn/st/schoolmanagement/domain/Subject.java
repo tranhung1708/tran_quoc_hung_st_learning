@@ -6,6 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * A Subject.
@@ -23,6 +24,25 @@ public class Subject implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+
+
+
+
+    @OneToOne(fetch = FetchType.LAZY,
+        cascade =  CascadeType.ALL,
+        mappedBy = "subject")
+    private DetailSubject detailSubject;
+
+
+    public DetailSubject getDetailSubject() {
+        return detailSubject;
+    }
+
+    public void setDetailSubject(DetailSubject detailSubject) {
+        this.detailSubject = detailSubject;
+    }
+
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
