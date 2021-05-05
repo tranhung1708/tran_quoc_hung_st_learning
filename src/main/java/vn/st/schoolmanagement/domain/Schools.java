@@ -1,27 +1,27 @@
 package vn.st.schoolmanagement.domain;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "schools")
-public class Schools implements Serializable {
+public class Schools {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long idSchool;
 
     private String nameSchools;
 
-    @ManyToOne
-    @JoinColumn(name = "clazz_id", referencedColumnName = "id")
-    private Clazz clazz;
 
-    public long getId() {
-        return id;
+    @OneToMany(mappedBy = "schools")
+    private Set<Clazz> clazzes;
+
+    public long getIdSchool() {
+        return idSchool;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setIdSchool(long idSchool) {
+        this.idSchool = idSchool;
     }
 
     public String getNameSchools() {
@@ -32,11 +32,11 @@ public class Schools implements Serializable {
         this.nameSchools = nameSchools;
     }
 
-    public Clazz getClazz() {
-        return clazz;
+    public Set<Clazz> getClazzes() {
+        return clazzes;
     }
 
-    public void setClazz(Clazz clazz) {
-        this.clazz = clazz;
+    public void setClazzes(Set<Clazz> clazzes) {
+        this.clazzes = clazzes;
     }
 }
