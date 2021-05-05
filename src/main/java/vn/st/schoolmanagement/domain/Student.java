@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "student")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Student implements Serializable {
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -19,15 +19,14 @@ public class Student implements Serializable {
     private String address;
     private String gender;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private Set<Clazz> books;
+    @ManyToOne
+    @JoinColumn(name = "student_id", referencedColumnName = "idClazz")
+    private Clazz clazz;
+
+
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private Set<DetailSubject> detailSubjects;
-
-
-
-
 
 
     public long getId() {
@@ -78,12 +77,12 @@ public class Student implements Serializable {
         this.gender = gender;
     }
 
-    public Set<Clazz> getBooks() {
-        return books;
+
+    public Clazz getClazz() {
+        return clazz;
     }
 
-    public void setBooks(Set<Clazz> books) {
-        this.books = books;
+    public void setClazz(Clazz clazz) {
+        this.clazz = clazz;
     }
-
 }
