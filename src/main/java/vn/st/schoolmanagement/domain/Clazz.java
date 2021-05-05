@@ -1,33 +1,33 @@
 package vn.st.schoolmanagement.domain;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "clazz")
-public class Clazz implements Serializable {
+public class Clazz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long idClazz;
 
     @Column(name = "name")
     private String nameClass;
 
+    @OneToMany(mappedBy = "clazz")
+    private Set<Student> studentSet;
+
+
     @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
-    private Student student;
-
-    @OneToMany(mappedBy = "clazz" , cascade = CascadeType.ALL)
-    private Set<Schools> schoolsSet;
+    @JoinColumn(name = "id_school")
+    private Schools schools;
 
 
-    public long getId() {
-        return id;
+    public long getIdClazz() {
+        return idClazz;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setIdClazz(long idClazz) {
+        this.idClazz = idClazz;
     }
 
     public String getNameClass() {
@@ -38,19 +38,19 @@ public class Clazz implements Serializable {
         this.nameClass = nameClass;
     }
 
-    public Student getStudent() {
-        return student;
+    public Set<Student> getStudentSet() {
+        return studentSet;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudentSet(Set<Student> studentSet) {
+        this.studentSet = studentSet;
     }
 
-    public Set<Schools> getSchoolsSet() {
-        return schoolsSet;
+    public Schools getSchools() {
+        return schools;
     }
 
-    public void setSchoolsSet(Set<Schools> schoolsSet) {
-        this.schoolsSet = schoolsSet;
+    public void setSchools(Schools schools) {
+        this.schools = schools;
     }
 }
