@@ -26,23 +26,16 @@ public class Subject implements Serializable {
     private String name;
 
 
+    @OneToMany(mappedBy = "subject")
+    private Set<DetailSubject> detailSubjects;
 
-
-
-    @OneToOne(fetch = FetchType.LAZY,
-        cascade =  CascadeType.ALL,
-        mappedBy = "subject")
-    private DetailSubject detailSubject;
-
-
-    public DetailSubject getDetailSubject() {
-        return detailSubject;
+    public Set<DetailSubject> getDetailSubjects() {
+        return detailSubjects;
     }
 
-    public void setDetailSubject(DetailSubject detailSubject) {
-        this.detailSubject = detailSubject;
+    public void setDetailSubjects(Set<DetailSubject> detailSubjects) {
+        this.detailSubjects = detailSubjects;
     }
-
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {

@@ -14,18 +14,26 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "name")
     private String nameStudent;
+
+    @Column(name = "birthday")
     private String birthday;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "gender")
     private String gender;
 
     @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "idClazz")
+    @JoinColumn(name = "id_clazz")
     private Clazz clazz;
 
 
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student")
     private Set<DetailSubject> detailSubjects;
 
 

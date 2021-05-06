@@ -11,21 +11,21 @@ public class DetailSubject {
     @Column(name = "mouth")
     private String mouth;
 
-    @Column(name = "fifteenMinutes")
+    @Column(name = "fifteen_minutes")
     private String fifteenMinutes;
 
-    @Column(name = "oneLesson")
+    @Column(name = "one_lesson")
     private String oneLesson;
 
-    @Column(name = "finishTheSubject")
+    @Column(name = "finish_the_subject")
     private String finishTheSubject;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "subject_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_subject")
     private Subject subject;
 
     @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    @JoinColumn(name = "id_student")
     private Student student;
 
     public String getMouth() {
@@ -60,6 +60,21 @@ public class DetailSubject {
         this.finishTheSubject = finishTheSubject;
     }
 
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
     public long getId() {
         return id;
