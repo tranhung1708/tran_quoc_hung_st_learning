@@ -21,6 +21,9 @@ public class DetailSubjectCriteria implements Serializable, Criteria {
     private LongFilter idStudent;
     private StringFilter subjectName;
     private StringFilter studentName;
+    private StringFilter studentBirthday;
+    private StringFilter studentGender;
+    private StringFilter clazzName;
 
     public DetailSubjectCriteria() {}
 
@@ -34,6 +37,9 @@ public class DetailSubjectCriteria implements Serializable, Criteria {
         this.idStudent = other.idStudent == null ? null : other.idStudent.copy();
         this.subjectName = other.subjectName == null ? null : other.subjectName.copy();
         this.studentName = other.studentName == null ? null : other.studentName.copy();
+        this.studentBirthday = other.studentBirthday == null ? null : other.studentBirthday.copy();
+        this.studentGender = other.studentGender == null ? null : other.studentGender.copy();
+        this.clazzName = other.clazzName == null ? null : other.clazzName.copy();
     }
 
     @Override

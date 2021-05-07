@@ -7,8 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.st.schoolmanagement.domain.DetailSubject;
-import vn.st.schoolmanagement.domain.Student;
-import vn.st.schoolmanagement.domain.Subject;
 import vn.st.schoolmanagement.repository.DetailSubjectRepository;
 import vn.st.schoolmanagement.service.DetailSubjectService;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
@@ -33,9 +31,9 @@ public class DetailSubjectServiceImpl implements DetailSubjectService {
     }
 
     @Override
-    public DetailSubjectDTO save(DetailSubjectDTO studentDTO) {
-        log.debug("Request to save detailSubject : {}", studentDTO);
-        DetailSubject detailSubject = detailSubjectMapper.toEntity(studentDTO);
+    public DetailSubjectDTO save(DetailSubjectDTO subjectDTO) {
+        log.debug("Request to save detailSubject : {}", subjectDTO);
+        DetailSubject detailSubject = detailSubjectMapper.toEntity(subjectDTO);
         detailSubject = detailSubjectRepository.save(detailSubject);
         return detailSubjectMapper.toDto(detailSubject);
     }
@@ -46,6 +44,7 @@ public class DetailSubjectServiceImpl implements DetailSubjectService {
         return detailSubjectRepository.findAll(pageable)
             .map(detailSubjectMapper::toDto);
     }
+
 
     @Override
     public Optional<DetailSubjectDTO> findOne(Long id) {
@@ -59,6 +58,12 @@ public class DetailSubjectServiceImpl implements DetailSubjectService {
         detailSubjectRepository.deleteById(id);
     }
 
-
+    @Override
+    public List<DetailSubjectDTO> saveAll(List<DetailSubjectDTO> subjectDTOS) {
+        log.debug("Request to save detailSubject : {}", subjectDTOS);
+        List<DetailSubject> detailSubject = detailSubjectMapper.toEntity(subjectDTOS);
+        detailSubject = detailSubjectRepository.saveAll(detailSubject);
+        return detailSubjectMapper.toDto(detailSubject);
+    }
 
 }

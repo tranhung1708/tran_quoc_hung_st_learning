@@ -61,13 +61,22 @@ public class DetailSubjectQueryService extends QueryService<DetailSubject> {
             if (criteria.getSubjectName() != null) {
                 specification = specification.and(joinTest(criteria.getSubjectName().getEquals()));
             }
-
             if (criteria.getStudentName() != null) {
                 specification = specification.and(joinStudent(criteria.getStudentName().getEquals()));
+            }
+            if (criteria.getStudentBirthday() != null) {
+                specification = specification.and(joinStudentBirthday(criteria.getStudentBirthday().getEquals()));
+            }
+            if (criteria.getStudentGender() != null) {
+                specification = specification.and(joinStudentGender(criteria.getStudentGender().getEquals()));
+            }
+            if (criteria.getClazzName() != null) {
+                specification = specification.and(joinClazz(criteria.getClazzName().getEquals()));
             }
         }
         return specification;
     }
+
 
     public static Specification<DetailSubject> joinTest(String name) {
         return (Specification<DetailSubject>) (root, query, cb) -> {
@@ -76,10 +85,32 @@ public class DetailSubjectQueryService extends QueryService<DetailSubject> {
         };
     }
 
-    public static Specification<DetailSubject> joinStudent(String name) {
+    public static Specification<DetailSubject> joinStudentBirthday(String name) {
         return (Specification<DetailSubject>) (root, query, cb) -> {
             Join<DetailSubject, Student> detailSubject = root.join("student");
-            return cb.equal(detailSubject.get(Student_.nameStudent), name);
+            return cb.equal(detailSubject.get(Student_.birthday), name);
+        };
+    }
+
+    public static Specification<DetailSubject> joinStudentGender(String name) {
+        return (Specification<DetailSubject>) (root, query, cb) -> {
+            Join<DetailSubject, Student> detailSubject = root.join("student");
+            return cb.equal(detailSubject.get(Student_.gender), name);
+        };
+    }
+
+    public static Specification<DetailSubject> joinStudent(String name) {
+        return (Specification<DetailSubject>) (root, query, cb) -> {
+            Join<DetailSubject, Student> joinStudent = root.join("student");
+            return cb.equal(joinStudent.get(Student_.nameStudent), name);
+        };
+    }
+
+    public static Specification<DetailSubject> joinClazz(String name) {
+        return (root, query, cb) -> {
+            Join<DetailSubject, Student> joinStudent = root.join("student");
+            Join<Student, Clazz> joinClazz = joinStudent.join("clazz");
+            return cb.equal(joinClazz.get(Clazz_.nameClass), name);
         };
     }
 }

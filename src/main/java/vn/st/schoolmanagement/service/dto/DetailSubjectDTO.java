@@ -4,13 +4,30 @@ package vn.st.schoolmanagement.service.dto;
 import java.io.Serializable;
 
 public class DetailSubjectDTO implements Serializable {
+
     private Long id;
+
     private String mouth;
+
     private String fifteenMinutes;
+
     private String oneLesson;
+
     private String finishTheSubject;
+
     private Long idSubject;
+
     private Long idStudent;
+
+    public DetailSubjectDTO(Long id, String mouth, String fifteenMinutes, String oneLesson, String finishTheSubject, Long idSubject, Long idStudent) {
+        this.id = id;
+        this.mouth = mouth;
+        this.fifteenMinutes = fifteenMinutes;
+        this.oneLesson = oneLesson;
+        this.finishTheSubject = finishTheSubject;
+        this.idSubject = idSubject;
+        this.idStudent = idStudent;
+    }
 
     public Long getId() {
         return id;

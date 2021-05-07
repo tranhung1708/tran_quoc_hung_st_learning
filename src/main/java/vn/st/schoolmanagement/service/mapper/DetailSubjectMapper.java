@@ -14,11 +14,18 @@ import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
 @Mapper(componentModel = "spring", uses = {})
 public interface DetailSubjectMapper extends EntityMapper<DetailSubjectDTO, DetailSubject>{
 
-//    @Mapping(target = "schools.idSchool", source = "idSchool")
-//    DetailSubject toEntity(DetailSubjectDTO dto);
-//
-//    @Mapping(target = "idSchool", source = "schools.idSchool")
-//    DetailSubjectDTO toDto(DetailSubject entity);
+    @Mapping(target = "subject.id",source = "idSubject")
+    @Mapping(target = "student.id", source = "idStudent")
+    DetailSubject toEntity(DetailSubjectDTO dto);
+
+
+    @Mapping(target = "idSubject",source = "subject.id")
+    @Mapping(target = "idStudent", source = "student.id")
+    DetailSubjectDTO toDto(DetailSubject entity);
+
+
+
+
 
     default DetailSubject fromId(Long id) {
         if (id == null) {

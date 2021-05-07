@@ -13,4 +13,5 @@ import vn.st.schoolmanagement.domain.DetailSubject;
 @Repository
 public interface DetailSubjectRepository extends JpaRepository<DetailSubject, Long>, JpaSpecificationExecutor<DetailSubject> {
 
+
 }
