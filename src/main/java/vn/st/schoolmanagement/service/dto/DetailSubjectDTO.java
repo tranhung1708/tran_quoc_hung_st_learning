@@ -29,6 +29,15 @@ public class DetailSubjectDTO implements Serializable {
         this.idStudent = idStudent;
     }
 
+    public DetailSubjectDTO( String mouth, String fifteenMinutes, String oneLesson, String finishTheSubject, Long idSubject, Long idStudent) {
+        this.mouth = mouth;
+        this.fifteenMinutes = fifteenMinutes;
+        this.oneLesson = oneLesson;
+        this.finishTheSubject = finishTheSubject;
+        this.idSubject = idSubject;
+        this.idStudent = idStudent;
+    }
+
     public Long getId() {
         return id;
     }

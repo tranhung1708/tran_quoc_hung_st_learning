@@ -11,10 +11,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import vn.st.schoolmanagement.service.CSVService;
 import vn.st.schoolmanagement.service.DetailSubjectQueryService;
 import vn.st.schoolmanagement.service.DetailSubjectService;
-import vn.st.schoolmanagement.service.FileUploadCSVService;
 import vn.st.schoolmanagement.service.dto.*;
 import vn.st.schoolmanagement.web.rest.errors.BadRequestAlertException;
 
@@ -33,12 +34,13 @@ public class DetailSubjectController {
 
     private final DetailSubjectService detailSubjectService;
     private final DetailSubjectQueryService detailSubjectQueryService;
-    private final FileUploadCSVService fileUpload;
+    private final CSVService csvService;
 
-    public DetailSubjectController(DetailSubjectService detailSubjectService, DetailSubjectQueryService detailSubjectQueryService, FileUploadCSVService fileUpload) {
+    public DetailSubjectController(DetailSubjectService detailSubjectService, DetailSubjectQueryService detailSubjectQueryService, CSVService csvService) {
         this.detailSubjectService = detailSubjectService;
         this.detailSubjectQueryService = detailSubjectQueryService;
-        this.fileUpload = fileUpload;
+
+        this.csvService = csvService;
     }
 
     //Lấy dữ liệu theo yêu cầu 4
@@ -69,5 +71,12 @@ public class DetailSubjectController {
         log.debug("REST request to save list DetailSubject : {}", detailSubjectDTOS);
         List<DetailSubjectDTO> detailSubjectDTOS1 = detailSubjectService.saveAll(detailSubjectDTOS);
         return new ResponseEntity<>(detailSubjectDTOS1, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/create-csv-detail-subject")
+    public ResponseEntity<DetailSubjectDTO> uploadFile(@RequestParam("file") MultipartFile file) {
+        log.debug("REST request to save list DetailSubject : {}", file);
+        csvService.save(file);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
