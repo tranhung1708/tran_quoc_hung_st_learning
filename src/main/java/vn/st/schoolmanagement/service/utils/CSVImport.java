@@ -1,4 +1,4 @@
-package vn.st.schoolmanagement.service;
+package vn.st.schoolmanagement.service.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,12 +10,11 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.lang3.StringUtils;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
 
-public class CSVHelper {
+public class CSVImport {
 
-    public static List<DetailSubjectDTO> csvToTutorials(InputStream is) {
+    public static List<DetailSubjectDTO> csvDetailSubject(InputStream is) {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
                  CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
@@ -25,14 +24,13 @@ public class CSVHelper {
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 
             for (CSVRecord csvRecord : csvRecords) {
-                DetailSubjectDTO tutorial = new DetailSubjectDTO(
-                    csvRecord.get("mouth"),
-                    csvRecord.get("fifteenMinutes"),
-                    csvRecord.get("oneLesson"),
-                    csvRecord.get("finishTheSubject"),
-                    Long.parseLong(csvRecord.get("idSubject")),
-                    Long.parseLong(csvRecord.get("idStudent"))
-                );
+                DetailSubjectDTO tutorial = new DetailSubjectDTO();
+                tutorial.setMouth(Double.parseDouble(csvRecord.get("mouth")));
+                tutorial.setFifteenMinutes(Double.parseDouble(csvRecord.get("fifteenMinutes")));
+                tutorial.setOneLesson(Double.parseDouble(csvRecord.get("oneLesson")));
+                tutorial.setFinishTheSubject(Double.parseDouble(csvRecord.get("finishTheSubject")));
+                tutorial.setIdSubject(Long.parseLong(csvRecord.get("idSubject")));
+                tutorial.setIdStudent(Long.parseLong(csvRecord.get("idStudent")));
                 tutorials.add(tutorial);
             }
             return tutorials;

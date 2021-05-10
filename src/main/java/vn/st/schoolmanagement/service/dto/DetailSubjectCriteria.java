@@ -1,6 +1,7 @@
 package vn.st.schoolmanagement.service.dto;
 
 import io.github.jhipster.service.Criteria;
+import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import lombok.Data;
@@ -13,10 +14,10 @@ import java.io.Serializable;
 public class DetailSubjectCriteria implements Serializable, Criteria {
 
     private LongFilter id;
-    private StringFilter mouth;
-    private StringFilter fifteenMinutes;
-    private StringFilter oneLesson;
-    private StringFilter finishTheSubject;
+    private DoubleFilter mouth;
+    private DoubleFilter fifteenMinutes;
+    private DoubleFilter oneLesson;
+    private DoubleFilter finishTheSubject;
     private LongFilter idSubject;
     private LongFilter idStudent;
     private StringFilter subjectName;

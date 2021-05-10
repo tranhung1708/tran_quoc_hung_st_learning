@@ -16,19 +16,19 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="mouth" type="varchar(255)">
+            <column name="mouth" type="double">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="fifteen_minutes" type="varchar(255)">
+            <column name="fifteen_minutes" type="double">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="one_lesson" type="varchar(255)">
+            <column name="one_lesson" type="double">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="finish_the_subject" type="varchar(255)">
+            <column name="finish_the_subject" type="double">
                 <constraints nullable="false"/>
             </column>
 

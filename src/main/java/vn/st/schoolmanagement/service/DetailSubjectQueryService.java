@@ -1,6 +1,7 @@
 package vn.st.schoolmanagement.service;
 
 import io.github.jhipster.service.QueryService;
+import liquibase.pro.packaged.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -12,9 +13,12 @@ import vn.st.schoolmanagement.domain.*;
 import vn.st.schoolmanagement.repository.DetailSubjectRepository;
 import vn.st.schoolmanagement.service.dto.DetailSubjectCriteria;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
+import vn.st.schoolmanagement.service.dto.StudentDTO;
 import vn.st.schoolmanagement.service.mapper.DetailSubjectMapper;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import javax.persistence.metamodel.SingularAttribute;
 
 @Service
 @Transactional(readOnly = true)
@@ -47,16 +51,16 @@ public class DetailSubjectQueryService extends QueryService<DetailSubject> {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), DetailSubject_.id));
             }
             if (criteria.getMouth() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMouth(), DetailSubject_.mouth));
+                specification = specification.and(buildRangeSpecification(criteria.getMouth(), DetailSubject_.mouth));
             }
             if (criteria.getFifteenMinutes() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getFifteenMinutes(), DetailSubject_.fifteenMinutes));
+                specification = specification.and(buildRangeSpecification(criteria.getFifteenMinutes(), DetailSubject_.fifteenMinutes));
             }
             if (criteria.getOneLesson() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getOneLesson(), DetailSubject_.oneLesson));
+                specification = specification.and(buildRangeSpecification(criteria.getOneLesson(), DetailSubject_.oneLesson));
             }
             if (criteria.getFinishTheSubject() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getFinishTheSubject(), DetailSubject_.finishTheSubject));
+                specification = specification.and(buildRangeSpecification(criteria.getFinishTheSubject(), DetailSubject_.finishTheSubject));
             }
             if (criteria.getSubjectName() != null) {
                 specification = specification.and(joinTest(criteria.getSubjectName().getEquals()));
@@ -72,6 +76,9 @@ public class DetailSubjectQueryService extends QueryService<DetailSubject> {
             }
             if (criteria.getClazzName() != null) {
                 specification = specification.and(joinClazz(criteria.getClazzName().getEquals()));
+            }
+            if (criteria.getSubjectName() != null){
+                specification = specification.and(joinStudentSubject(criteria.getSubjectName().getEquals()));
             }
         }
         return specification;
@@ -113,4 +120,13 @@ public class DetailSubjectQueryService extends QueryService<DetailSubject> {
             return cb.equal(joinClazz.get(Clazz_.nameClass), name);
         };
     }
+
+    public static Specification<DetailSubject> joinStudentSubject(String name) {
+        return (root, query, cb) -> {
+            Join<DetailSubject, Student> joinStudent = root.join("student");
+            Join<Student, Subject> joinSubject = joinStudent.join("subject");
+            return cb.equal(joinSubject.get(Subject_.name), name);
+        };
+    }
+
 }

@@ -9,16 +9,16 @@ public class DetailSubject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "mouth")
-    private String mouth;
+    private double mouth;
 
     @Column(name = "fifteen_minutes")
-    private String fifteenMinutes;
+    private double fifteenMinutes;
 
     @Column(name = "one_lesson")
-    private String oneLesson;
+    private double oneLesson;
 
     @Column(name = "finish_the_subject")
-    private String finishTheSubject;
+    private double finishTheSubject;
 
     @ManyToOne
     @JoinColumn(name = "id_subject")
@@ -28,35 +28,43 @@ public class DetailSubject {
     @JoinColumn(name = "id_student")
     private Student student;
 
-    public String getMouth() {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public double getMouth() {
         return mouth;
     }
 
-    public void setMouth(String mouth) {
+    public void setMouth(double mouth) {
         this.mouth = mouth;
     }
 
-    public String getFifteenMinutes() {
+    public double getFifteenMinutes() {
         return fifteenMinutes;
     }
 
-    public void setFifteenMinutes(String fifteenMinutes) {
+    public void setFifteenMinutes(double fifteenMinutes) {
         this.fifteenMinutes = fifteenMinutes;
     }
 
-    public String getOneLesson() {
+    public double getOneLesson() {
         return oneLesson;
     }
 
-    public void setOneLesson(String oneLesson) {
+    public void setOneLesson(double oneLesson) {
         this.oneLesson = oneLesson;
     }
 
-    public String getFinishTheSubject() {
+    public double getFinishTheSubject() {
         return finishTheSubject;
     }
 
-    public void setFinishTheSubject(String finishTheSubject) {
+    public void setFinishTheSubject(double finishTheSubject) {
         this.finishTheSubject = finishTheSubject;
     }
 
@@ -75,13 +83,4 @@ public class DetailSubject {
     public void setStudent(Student student) {
         this.student = student;
     }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
 }

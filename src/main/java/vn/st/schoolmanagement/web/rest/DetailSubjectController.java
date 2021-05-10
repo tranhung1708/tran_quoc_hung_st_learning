@@ -1,23 +1,25 @@
 package vn.st.schoolmanagement.web.rest;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import vn.st.schoolmanagement.service.CSVService;
+import vn.st.schoolmanagement.service.impl.CSVServiceImpl;
 import vn.st.schoolmanagement.service.DetailSubjectQueryService;
 import vn.st.schoolmanagement.service.DetailSubjectService;
 import vn.st.schoolmanagement.service.dto.*;
 import vn.st.schoolmanagement.web.rest.errors.BadRequestAlertException;
+import org.springframework.core.io.Resource;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -34,12 +36,11 @@ public class DetailSubjectController {
 
     private final DetailSubjectService detailSubjectService;
     private final DetailSubjectQueryService detailSubjectQueryService;
-    private final CSVService csvService;
+    private final CSVServiceImpl csvService;
 
-    public DetailSubjectController(DetailSubjectService detailSubjectService, DetailSubjectQueryService detailSubjectQueryService, CSVService csvService) {
+    public DetailSubjectController(DetailSubjectService detailSubjectService, DetailSubjectQueryService detailSubjectQueryService, CSVServiceImpl csvService) {
         this.detailSubjectService = detailSubjectService;
         this.detailSubjectQueryService = detailSubjectQueryService;
-
         this.csvService = csvService;
     }
 
@@ -73,10 +74,33 @@ public class DetailSubjectController {
         return new ResponseEntity<>(detailSubjectDTOS1, HttpStatus.CREATED);
     }
 
+    //thêm điểm bằng một file csv
     @PostMapping("/create-csv-detail-subject")
     public ResponseEntity<DetailSubjectDTO> uploadFile(@RequestParam("file") MultipartFile file) {
         log.debug("REST request to save list DetailSubject : {}", file);
         csvService.save(file);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    //Tải file điểm của từng học sinh bằng file text(đang làm chưa xong)
+    @GetMapping("/get-file-text")
+    public ResponseEntity<Resource> getFileText() {
+        String filename = "studentSubject.txt";
+        InputStreamResource file = new InputStreamResource(csvService.getFile());
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+            .contentType(MediaType.parseMediaType("text/plain"))
+            .body(file);
+    }
+    //Tải file điểm của từng học sinh bằng file csv (đang làm chưa xong)
+    @GetMapping("/get-file-csv")
+    public ResponseEntity<Resource> getFileCSV() {
+        String filename = "detailSubject.csv";
+        InputStreamResource file = new InputStreamResource(csvService.load());
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+            .contentType(MediaType.parseMediaType("application/csv"))
+            .body(file);
+    }
+
 }

@@ -1,12 +1,9 @@
 package vn.st.schoolmanagement.service.dto;
-
 import lombok.Data;
-import lombok.ToString;
-
 import java.io.Serializable;
+import java.util.List;
 
 @Data
-@ToString
 public class StudentDTO implements Serializable {
 
     private Long id;
@@ -20,5 +17,7 @@ public class StudentDTO implements Serializable {
     private String gender;
 
     private Long idClazz;
+
+    private List<DetailSubjectDTO> detailSubjects;
 
 }

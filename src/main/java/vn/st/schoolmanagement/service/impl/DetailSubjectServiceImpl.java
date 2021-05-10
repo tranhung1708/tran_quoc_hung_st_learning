@@ -1,5 +1,6 @@
 package vn.st.schoolmanagement.service.impl;
 
+import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import vn.st.schoolmanagement.service.DetailSubjectService;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
 import vn.st.schoolmanagement.service.mapper.DetailSubjectMapper;
 
+import javax.persistence.criteria.Expression;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,5 +67,6 @@ public class DetailSubjectServiceImpl implements DetailSubjectService {
         detailSubject = detailSubjectRepository.saveAll(detailSubject);
         return detailSubjectMapper.toDto(detailSubject);
     }
+
 
 }
