@@ -32,14 +32,4 @@ public class DetailSubjectDTO implements Serializable {
     public double avgSubject() {
         return (this.getMouth() + this.getFifteenMinutes() + this.getOneLesson() + this.getFinishTheSubject()) / 4;
     }
-
-    public String checkAvgStudent() {
-        if (this.avgSubject() >= 7.0) {
-            return "Giỏi";
-        } else if (this.avgSubject() >= 5.5) {
-            return "Khá";
-        }
-        return "Trung Bình";
-    }
-
 }
