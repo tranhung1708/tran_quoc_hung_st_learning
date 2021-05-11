@@ -1,9 +1,8 @@
 package vn.st.schoolmanagement.service.utils;
+
 import org.springframework.data.domain.Page;
-import vn.st.schoolmanagement.domain.Subject;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
 import vn.st.schoolmanagement.service.dto.StudentDTO;
-import vn.st.schoolmanagement.service.dto.SubjectDTO;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -11,33 +10,48 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextExport {
-    private static final String HEADER = "Môn Học     | Miệng     | 15 Phút   | 1 Tiếng   |Kết thúc môn|  Trung Bình Môn";
 
-    public static ByteArrayInputStream txtExportStudentDetailSubject(Page<StudentDTO> students) {
+public class TextExport {
+    public static Object txtExportStudentDetailSubject(Page<StudentDTO> students) {
         try {
-            String TEXT_AF = "    | ";
-            String TEXT_BEFORE = "   ";
             List<StringBuilder> data = new ArrayList<>();
             for (StudentDTO student : students) {
                 StringBuilder record = new StringBuilder();
-                record.append("Tên Học Sinh: ").append(student.getNameStudent());
-                record.append('\n');
+                record.append(DirectoryManagement.Name_Student).append(student.getNameStudent());
+                record.append(DirectoryManagement.Down_the_line);
                 data.add(record);
                 record = new StringBuilder();
-                record.append(HEADER);
-                record.append('\n');
+                record.append(DirectoryManagement.HEADER);
+                record.append(DirectoryManagement.Down_the_line);
                 data.add(record);
                 record = new StringBuilder();
                 for (DetailSubjectDTO dto : student.getDetailSubjects()) {
-                    record.append(dto.getSubject().getName()).append(TEXT_AF);
-                    record.append(TEXT_BEFORE).append(dto.getMouth()).append(TEXT_AF);
-                    record.append(TEXT_BEFORE).append(dto.getFifteenMinutes()).append(TEXT_AF);
-                    record.append(TEXT_BEFORE).append(dto.getOneLesson()).append(TEXT_AF);
-                    record.append(TEXT_BEFORE).append(dto.getFinishTheSubject()).append(TEXT_AF);
-                    record.append(TEXT_BEFORE).append(dto.avg());
-                    record.append('\n');
+                    record.append(dto.getSubject().getName()).append(DirectoryManagement.TEXT_AF);
+                    record.append(DirectoryManagement.TEXT_BEFORE).append(dto.getMouth()).append(DirectoryManagement.TEXT_AF);
+                    record.append(DirectoryManagement.TEXT_BEFORE).append(dto.getFifteenMinutes()).append(DirectoryManagement.TEXT_AF);
+                    record.append(DirectoryManagement.TEXT_BEFORE).append(dto.getOneLesson()).append(DirectoryManagement.TEXT_AF);
+                    record.append(DirectoryManagement.TEXT_BEFORE).append(dto.getFinishTheSubject()).append(DirectoryManagement.TEXT_AF);
+                    record.append(DirectoryManagement.TEXT_BEFORE).append(dto.avgSubject());
+                    record.append(DirectoryManagement.Down_the_line);
+                    dto.checkAvgStudent();
                 }
+                System.out.println();
+                double avg = student.getDetailSubjects().stream().mapToDouble(DetailSubjectDTO::avgSubject).sum();
+                double avgStudent = avg / student.getDetailSubjects().size();
+
+                record.append(DirectoryManagement.Avg_Student).append(avgStudent);
+                record.append(DirectoryManagement.Down_the_line);
+                if (avgStudent >= 8.5) {
+                    record.append(DirectoryManagement.Student_classification).append(DirectoryManagement.Good_standing);
+                    record.append(DirectoryManagement.Down_the_line);
+                }
+                if (avgStudent >= 7.0) {
+                    record.append(DirectoryManagement.Student_classification).append(DirectoryManagement.Academic_pretty);
+                    record.append(DirectoryManagement.Down_the_line);
+                } else {
+                    record.append(DirectoryManagement.Student_classification).append(DirectoryManagement.Learning_capacity_is_average);
+                }
+                record.append(DirectoryManagement.Down_the_line);
                 data.add(record);
             }
             ByteArrayOutputStream output = new ByteArrayOutputStream(1024);
