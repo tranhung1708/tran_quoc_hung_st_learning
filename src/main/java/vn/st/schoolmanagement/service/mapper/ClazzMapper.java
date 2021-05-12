@@ -15,6 +15,7 @@ public interface ClazzMapper extends EntityMapper<ClazzDTO, Clazz>{
     Clazz toEntity(ClazzDTO dto);
 
     @Mapping(target = "idSchool", source = "schools.idSchool")
+    @Mapping(target = "studentDTOS", source = "studentSet")
     ClazzDTO toDto(Clazz entity);
 
     default Clazz fromId(Long id) {

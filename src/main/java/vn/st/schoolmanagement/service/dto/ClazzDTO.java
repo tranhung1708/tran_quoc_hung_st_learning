@@ -1,7 +1,13 @@
 package vn.st.schoolmanagement.service.dto;
 
-import java.io.Serializable;
+import lombok.Data;
+import lombok.ToString;
 
+import java.io.Serializable;
+import java.util.List;
+
+@Data
+@ToString
 public class ClazzDTO implements Serializable {
     private Long idClazz;
 
@@ -9,27 +15,5 @@ public class ClazzDTO implements Serializable {
 
     private Long idSchool;
 
-    public Long getIdSchool() {
-        return idSchool;
-    }
-
-    public void setIdSchool(Long idSchool) {
-        this.idSchool = idSchool;
-    }
-
-    public Long getIdClazz() {
-        return idClazz;
-    }
-
-    public void setIdClazz(Long idClazz) {
-        this.idClazz = idClazz;
-    }
-
-    public String getNameClass() {
-        return nameClass;
-    }
-
-    public void setNameClass(String nameClass) {
-        this.nameClass = nameClass;
-    }
+    private List<StudentDTO> studentDTOS;
 }

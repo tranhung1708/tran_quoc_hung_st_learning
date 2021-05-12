@@ -32,4 +32,24 @@ public class DetailSubjectDTO implements Serializable {
     public double avgSubject() {
         return (this.getMouth() + this.getFifteenMinutes() + this.getOneLesson() + this.getFinishTheSubject()) / 4;
     }
+
+
+    public double checkLearning() {
+        if (avgSubject() >= 5.5 && avgSubject() <= 7.0) {
+            return 2;
+        } else if (avgSubject() < 5.5) {
+            return 3;
+        }
+        return 1;
+    }
+
+    public String formatFileText() {
+        return String.format("%7s | %5s | %7s | %6s | %10s |%10s",
+            subject.getName(),
+            this.getMouth(),
+            this.getFifteenMinutes(),
+            this.getOneLesson(),
+            this.getFinishTheSubject(),
+            this.avgSubject());
+    }
 }
