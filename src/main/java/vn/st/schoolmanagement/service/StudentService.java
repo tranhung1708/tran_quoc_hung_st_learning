@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import vn.st.schoolmanagement.service.dto.StudentDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface StudentService {
@@ -15,4 +16,6 @@ public interface StudentService {
     Optional<StudentDTO> findOne(Long id);
 
     void delete(Long id);
+
+    List<StudentDTO> findAllByClazzId(Long classId);
 }

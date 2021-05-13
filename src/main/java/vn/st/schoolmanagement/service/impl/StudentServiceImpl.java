@@ -7,11 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.st.schoolmanagement.domain.Student;
+import vn.st.schoolmanagement.repository.ClazzRepository;
 import vn.st.schoolmanagement.repository.StudentRepository;
 import vn.st.schoolmanagement.service.StudentService;
 import vn.st.schoolmanagement.service.dto.StudentDTO;
 import vn.st.schoolmanagement.service.mapper.StudentMapper;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,5 +58,10 @@ public class StudentServiceImpl implements StudentService {
     public void delete(Long id) {
         log.debug("Request to delete Student : {}", id);
         studentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<StudentDTO> findAllByClazzId(Long classId) {
+        return studentMapper.toDto(studentRepository.findAllByClazz_IdClazz(classId));
     }
 }

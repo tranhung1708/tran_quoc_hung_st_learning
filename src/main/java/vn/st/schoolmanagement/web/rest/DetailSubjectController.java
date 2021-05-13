@@ -102,5 +102,4 @@ public class DetailSubjectController {
             .contentType(MediaType.parseMediaType("application/csv"))
             .body(file);
     }
-
 }

@@ -66,4 +66,5 @@ public class StudentQueryService extends QueryService<Student> {
         }
         return specification;
     }
+
 }
