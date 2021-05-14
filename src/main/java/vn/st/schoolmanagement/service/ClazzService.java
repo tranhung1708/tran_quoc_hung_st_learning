@@ -15,4 +15,6 @@ public interface ClazzService {
     Optional<ClazzDTO> findOne(Long id);
 
     void delete(Long id);
+
+    List<ClazzDTO> findAllByShoolId(Long schoolId);
 }

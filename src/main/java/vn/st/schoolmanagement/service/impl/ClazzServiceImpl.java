@@ -12,6 +12,7 @@ import vn.st.schoolmanagement.service.ClazzService;
 import vn.st.schoolmanagement.service.dto.ClazzDTO;
 import vn.st.schoolmanagement.service.mapper.ClazzMapper;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -58,5 +59,10 @@ public class ClazzServiceImpl implements ClazzService {
     public void delete(Long id) {
         log.debug("Request to delete Clazz : {}", id);
         clazzRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ClazzDTO> findAllByShoolId(Long schoolId) {
+        return clazzMapper.toDto(clazzRepository.findAllBySchoolsIdSchool(schoolId));
     }
 }

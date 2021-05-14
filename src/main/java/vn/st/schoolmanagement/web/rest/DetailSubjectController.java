@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import vn.st.schoolmanagement.domain.Student;
+import vn.st.schoolmanagement.service.MailService;
 import vn.st.schoolmanagement.service.impl.CSVServiceImpl;
 import vn.st.schoolmanagement.service.DetailSubjectQueryService;
 import vn.st.schoolmanagement.service.DetailSubjectService;
@@ -37,11 +39,13 @@ public class DetailSubjectController {
     private final DetailSubjectService detailSubjectService;
     private final DetailSubjectQueryService detailSubjectQueryService;
     private final CSVServiceImpl csvService;
+    private final MailService mailService;
 
-    public DetailSubjectController(DetailSubjectService detailSubjectService, DetailSubjectQueryService detailSubjectQueryService, CSVServiceImpl csvService) {
+    public DetailSubjectController(DetailSubjectService detailSubjectService, DetailSubjectQueryService detailSubjectQueryService, CSVServiceImpl csvService, MailService mailService) {
         this.detailSubjectService = detailSubjectService;
         this.detailSubjectQueryService = detailSubjectQueryService;
         this.csvService = csvService;
+        this.mailService = mailService;
     }
 
     //Lấy dữ liệu theo yêu cầu 4
@@ -101,5 +105,13 @@ public class DetailSubjectController {
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
             .contentType(MediaType.parseMediaType("application/csv"))
             .body(file);
+    }
+
+    @GetMapping("/send-mail")
+    public String sendMail() {
+        Student student = new Student();
+        student.setGmail("tranquochungqbh@gmail.com");
+        mailService.sendEmailFromTemplateDetailSubject(student);
+        return "avc";
     }
 }

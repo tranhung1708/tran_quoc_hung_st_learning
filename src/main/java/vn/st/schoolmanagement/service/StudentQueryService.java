@@ -59,6 +59,9 @@ public class StudentQueryService extends QueryService<Student> {
             if (criteria.getAddress() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAddress(), Student_.address));
             }
+            if (criteria.getEmail() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getEmail(), Student_.gmail));
+            }
 
             if (criteria.getGender() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getGender(), Student_.gender));

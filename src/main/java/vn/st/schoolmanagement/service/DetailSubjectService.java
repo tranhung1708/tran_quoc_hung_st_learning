@@ -2,6 +2,7 @@ package vn.st.schoolmanagement.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import vn.st.schoolmanagement.domain.DetailSubject;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
 
 import javax.persistence.criteria.Expression;
@@ -21,5 +22,7 @@ public interface DetailSubjectService {
     void delete(Long id);
 
     List<DetailSubjectDTO> saveAll(List<DetailSubjectDTO> subjectDTOS);
+
+    List<DetailSubjectDTO> findAllByStudentId(Long studentId);
 
 }

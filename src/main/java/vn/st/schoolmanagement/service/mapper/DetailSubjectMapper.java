@@ -21,7 +21,6 @@ public interface DetailSubjectMapper extends EntityMapper<DetailSubjectDTO, Deta
 
     @Mapping(target = "idSubject",source = "subject.id")
     @Mapping(target = "idStudent", source = "student.id")
-    @Mapping(target = "subject", source = "subject")
     DetailSubjectDTO toDto(DetailSubject entity);
 
 

@@ -12,6 +12,7 @@ public class StudentCriteria implements Serializable, Criteria {
     private StringFilter nameStudent;
     private StringFilter birthday;
     private StringFilter address;
+    private StringFilter email;
     private StringFilter gender;
 
 
@@ -22,6 +23,7 @@ public class StudentCriteria implements Serializable, Criteria {
         this.nameStudent = other.nameStudent == null ? null : other.nameStudent.copy();
         this.birthday = other.birthday == null ? null : other.birthday.copy();
         this.address = other.address == null ? null : other.address.copy();
+        this.email = other.email == null ? null : other.email.copy();
         this.gender = other.gender == null ? null : other.gender.copy();
     }
 
@@ -55,6 +57,14 @@ public class StudentCriteria implements Serializable, Criteria {
 
     public void setAddress(StringFilter address) {
         this.address = address;
+    }
+
+    public StringFilter getEmail() {
+        return email;
+    }
+
+    public void setEmail(StringFilter email) {
+        this.email = email;
     }
 
     public StringFilter getGender() {

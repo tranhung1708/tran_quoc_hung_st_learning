@@ -18,7 +18,6 @@ public interface StudentMapper extends EntityMapper<StudentDTO, Student>{
     Student toEntity(StudentDTO dto);
 
     @Mapping(target = "idClazz", source = "clazz.idClazz")
-    @Mapping(target = "detailSubjects", source = "detailSubjects")
     StudentDTO toDto(Student entity);
 
     default Student fromId(Long id) {

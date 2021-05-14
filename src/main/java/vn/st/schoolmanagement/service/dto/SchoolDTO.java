@@ -1,26 +1,15 @@
 package vn.st.schoolmanagement.service.dto;
 
-import java.io.Serializable;
+import lombok.Data;
+import lombok.ToString;
 
+import java.io.Serializable;
+@Data
+@ToString
 public class SchoolDTO implements Serializable {
 
     private Long idSchool;
 
-    private String nameSchool;
+    private String nameSchools;
 
-    public Long getIdSchool() {
-        return idSchool;
-    }
-
-    public void setIdSchool(Long idSchool) {
-        this.idSchool = idSchool;
-    }
-
-    public String getNameSchool() {
-        return nameSchool;
-    }
-
-    public void setNameSchool(String nameSchool) {
-        this.nameSchool = nameSchool;
-    }
 }

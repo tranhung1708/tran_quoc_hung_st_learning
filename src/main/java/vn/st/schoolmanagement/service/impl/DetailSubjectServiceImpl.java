@@ -68,5 +68,10 @@ public class DetailSubjectServiceImpl implements DetailSubjectService {
         return detailSubjectMapper.toDto(detailSubject);
     }
 
+    @Override
+    public List<DetailSubjectDTO> findAllByStudentId(Long studentId) {
+        return detailSubjectMapper.toDto(detailSubjectRepository.findAllByStudentId(studentId));
+    }
+
 
 }

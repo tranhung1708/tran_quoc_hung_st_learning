@@ -27,6 +27,9 @@ public class Student {
     @Column(name = "gender")
     private String gender;
 
+    @Column(name = "gmail")
+    private String gmail;
+
     @ManyToOne
     @JoinColumn(name = "id_clazz")
     private Clazz clazz;
@@ -36,6 +39,13 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private Set<DetailSubject> detailSubjects;
 
+    public String getGmail() {
+        return gmail;
+    }
+
+    public void setGmail(String gmail) {
+        this.gmail = gmail;
+    }
 
     public long getId() {
         return id;

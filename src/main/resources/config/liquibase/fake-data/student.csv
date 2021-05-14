@@ -1,3 +1,4 @@
-id;name;birthday;address;gender;id_clazz
-1;Trần Quốc Hưng;hhhh;Đà Nẵng;male;2
-2;supper manl;1012;quangbinh;female;2
+id;name;birthday;address;gmail;gender;id_clazz
+1;Trần Quốc Hưng;hhhh;Đà Nẵng;tranquochungqbh@gmail.com;male;2
+2;supper manl;1012;quangbinh;tranquochungqbh@gmail.com;female;2
+3;Nguyễn Văn A;1111;quang binh;tranquochungqbh@gmail.com;bedee;3

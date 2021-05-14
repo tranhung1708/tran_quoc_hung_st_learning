@@ -5,12 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import vn.st.schoolmanagement.service.ClazzService;
-import vn.st.schoolmanagement.service.DetailSubjectService;
-import vn.st.schoolmanagement.service.FileService;
-import vn.st.schoolmanagement.service.StudentService;
-import vn.st.schoolmanagement.service.dto.ClazzDTO;
+import vn.st.schoolmanagement.service.*;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
+import vn.st.schoolmanagement.service.dto.SchoolDTO;
 import vn.st.schoolmanagement.service.utils.CSVExport;
 import vn.st.schoolmanagement.service.utils.CSVImport;
 import vn.st.schoolmanagement.service.utils.TextExport;
@@ -24,16 +21,13 @@ public class CSVServiceImpl implements FileService {
 
     private final DetailSubjectService detailSubjectService;
 
-    private final StudentService studentService;
-
-    private final ClazzService clazzService;
+    private final SchoolService schoolService;
     private final TextExport textExport;
 
 
-    public CSVServiceImpl(DetailSubjectService detailSubjectService, StudentService studentService, ClazzService clazzService, TextExport textExport) {
+    public CSVServiceImpl(DetailSubjectService detailSubjectService,SchoolService schoolService, TextExport textExport) {
         this.detailSubjectService = detailSubjectService;
-        this.studentService = studentService;
-        this.clazzService = clazzService;
+        this.schoolService = schoolService;
         this.textExport = textExport;
     }
 
@@ -50,8 +44,8 @@ public class CSVServiceImpl implements FileService {
     //Export điểm học sinh ra file text
     @Override
     public ByteArrayInputStream getFile() {
-        Page<ClazzDTO> clazzDTOS = clazzService.findAll(Pageable.unpaged());
-        ByteArrayInputStream in = textExport.txtExportStudentDetailSubject(clazzDTOS);
+        Page<SchoolDTO> schoolDTOS = schoolService.findAll(Pageable.unpaged());
+        ByteArrayInputStream in = textExport.txtExportStudentDetailSubject(schoolDTOS);
         return in;
     }
 

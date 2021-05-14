@@ -5,7 +5,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import vn.st.schoolmanagement.domain.Clazz;
 
+import java.util.List;
+
 @SuppressWarnings("unused")
 @Repository
 public interface ClazzRepository extends JpaRepository<Clazz, Long>, JpaSpecificationExecutor<Clazz> {
+    List<Clazz> findAllBySchoolsIdSchool(Long id);
 }

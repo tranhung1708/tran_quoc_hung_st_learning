@@ -1,5 +1,8 @@
 package vn.st.schoolmanagement.service;
 
+import org.springframework.mail.SimpleMailMessage;
+import vn.st.schoolmanagement.domain.DetailSubject;
+import vn.st.schoolmanagement.domain.Student;
 import vn.st.schoolmanagement.domain.User;
 
 import io.github.jhipster.config.JHipsterProperties;
@@ -19,6 +22,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
+import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
 
 /**
  * Service for sending emails.
@@ -31,6 +35,8 @@ public class MailService {
     private final Logger log = LoggerFactory.getLogger(MailService.class);
 
     private static final String USER = "user";
+
+    private static final String STUDENT = "student";
 
     private static final String BASE_URL = "baseUrl";
 
@@ -86,10 +92,32 @@ public class MailService {
         sendEmail(user.getEmail(), subject, content, false, true);
     }
 
+
+    @Async
+    public void sendEmailFromTemplateDetailSubject(Student student, String templateName, String titleKey) {
+        if (student.getGmail() == null) {
+            log.debug("Email doesn't exist for student '{}'", student.getId());
+            return;
+        }
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        context.setVariable(STUDENT, student);
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        sendEmail(student.getGmail(), subject, content, false, true);
+    }
+
     @Async
     public void sendActivationEmail(User user) {
-        log.debug("Sending activation email to '{}'", user.getEmail());
-        sendEmailFromTemplate(user, "mail/activationEmail", "email.activation.title");
+        log.debug("Sending DetailSubject email to '{}'", user.getEmail());
+        sendEmailFromTemplate(user, "mail/sendMailDetailSubject", "email.activation.title");
+    }
+
+    @Async
+    public void sendEmailFromTemplateDetailSubject(Student student) {
+        log.debug("Sending activation email to '{}'", student.getGmail());
+        sendEmailFromTemplateDetailSubject(student, "mail/sendMailDetailSubject", "email.activation.title");
     }
 
     @Async
@@ -102,5 +130,14 @@ public class MailService {
     public void sendPasswordResetMail(User user) {
         log.debug("Sending password reset email to '{}'", user.getEmail());
         sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
+    }
+
+    public void sendMail(Student student) throws MailException {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(student.getGmail());
+        simpleMailMessage.setFrom("tranquochungqbh@gmail.com");
+        simpleMailMessage.setSubject("wecome");
+        simpleMailMessage.setText("wecome");
+        javaMailSender.send(simpleMailMessage);
     }
 }
