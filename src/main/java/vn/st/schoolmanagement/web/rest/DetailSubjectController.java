@@ -1,4 +1,5 @@
 package vn.st.schoolmanagement.web.rest;
+
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -14,12 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import vn.st.schoolmanagement.service.MailService;
-import vn.st.schoolmanagement.service.StudentService;
+import vn.st.schoolmanagement.domain.Student;
 import vn.st.schoolmanagement.service.impl.CSVServiceImpl;
 import vn.st.schoolmanagement.service.DetailSubjectQueryService;
 import vn.st.schoolmanagement.service.DetailSubjectService;
 import vn.st.schoolmanagement.service.dto.*;
+import vn.st.schoolmanagement.service.utils.SendMailById;
 import vn.st.schoolmanagement.service.utils.TextExport;
 import vn.st.schoolmanagement.web.rest.errors.BadRequestAlertException;
 import org.springframework.core.io.Resource;
@@ -27,7 +28,6 @@ import org.springframework.core.io.Resource;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -41,17 +41,13 @@ public class DetailSubjectController {
     private final DetailSubjectService detailSubjectService;
     private final DetailSubjectQueryService detailSubjectQueryService;
     private final CSVServiceImpl csvService;
-    private final MailService mailService;
-    private final StudentService studentService;
-    private final TextExport textExport;
+    private final SendMailById sendMailById;
 
-    public DetailSubjectController(DetailSubjectService detailSubjectService, DetailSubjectQueryService detailSubjectQueryService, CSVServiceImpl csvService, MailService mailService, StudentService studentService, TextExport textExport) {
+    public DetailSubjectController(DetailSubjectService detailSubjectService, DetailSubjectQueryService detailSubjectQueryService, CSVServiceImpl csvService, SendMailById sendMailById) {
         this.detailSubjectService = detailSubjectService;
         this.detailSubjectQueryService = detailSubjectQueryService;
         this.csvService = csvService;
-        this.mailService = mailService;
-        this.studentService = studentService;
-        this.textExport = textExport;
+        this.sendMailById = sendMailById;
     }
 
     //Lấy dữ liệu theo yêu cầu 4
@@ -92,7 +88,7 @@ public class DetailSubjectController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    //Tải file điểm của từng học sinh bằng file text(đang làm chưa xong)
+    //Tải file điểm của từng học sinh bằng file text
     @GetMapping("/get-file-text")
     public ResponseEntity<Resource> getFileText() {
         String filename = "studentSubject.txt";
@@ -102,6 +98,7 @@ public class DetailSubjectController {
             .contentType(MediaType.parseMediaType("text/plain"))
             .body(file);
     }
+
     //Tải file điểm của từng học sinh bằng file csv
     @GetMapping("/get-file-csv")
     public ResponseEntity<Resource> getFileCSV() {
@@ -112,10 +109,11 @@ public class DetailSubjectController {
             .contentType(MediaType.parseMediaType("application/csv"))
             .body(file);
     }
-//gửi gmail đến từng học sinh
+
+    //gửi gmail đến từng học sinh
     @GetMapping("/send-mail/{id}")
-    public ResponseEntity<String> sendMailByIdStudent(@PathVariable Long id) {
-        textExport.sendMailById(id);
+    public ResponseEntity<Student> sendMailByIdStudent(@PathVariable Long id) {
+        sendMailById.sendMailById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
