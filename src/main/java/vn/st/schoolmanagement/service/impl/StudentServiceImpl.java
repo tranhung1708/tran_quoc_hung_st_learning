@@ -48,7 +48,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Optional<StudentDTO> findOne(Long id) {
+    public Optional<StudentDTO> findOneById(Long id) {
         log.debug("Request to get Student : {}", id);
         return studentRepository.findById(id)
             .map(studentMapper::toDto);

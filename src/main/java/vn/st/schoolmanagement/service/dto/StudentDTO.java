@@ -15,10 +15,15 @@ public class StudentDTO implements Serializable {
 
     private String address;
 
+    private String gmail;
+
     private String gender;
 
     private Long idClazz;
 
+    private Long idDetailSubject;
+
     private List<DetailSubjectDTO> detailSubjects;
 
+    private String loadFile;
 }

@@ -12,7 +12,7 @@
         Added the entity detail subject.
     -->
     <changeSet id="20210506111000-1" author="jhipster">
-        <createTable tableName="detail_subject">
+        <createTable tableName="detailSubject">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -59,7 +59,7 @@
         <loadData
             file="config/liquibase/fake-data/detail_subject.csv"
             separator=";"
-            tableName="detail_subject">
+            tableName="detailSubject">
             <column name="id" type="numeric"/>
             <column name="mouth" type="string"/>
             <column name="fifteen_minutes" type="string"/>

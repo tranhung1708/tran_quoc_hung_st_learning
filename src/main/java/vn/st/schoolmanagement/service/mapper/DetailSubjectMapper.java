@@ -24,9 +24,6 @@ public interface DetailSubjectMapper extends EntityMapper<DetailSubjectDTO, Deta
     DetailSubjectDTO toDto(DetailSubject entity);
 
 
-
-
-
     default DetailSubject fromId(Long id) {
         if (id == null) {
             return null;

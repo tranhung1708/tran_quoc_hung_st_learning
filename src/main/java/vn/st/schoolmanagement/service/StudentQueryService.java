@@ -8,15 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vn.st.schoolmanagement.domain.Clazz;
-import vn.st.schoolmanagement.domain.Clazz_;
-import vn.st.schoolmanagement.domain.Student;
-import vn.st.schoolmanagement.domain.Student_;
+import vn.st.schoolmanagement.domain.*;
 import vn.st.schoolmanagement.repository.StudentRepository;
 
 import vn.st.schoolmanagement.service.dto.StudentCriteria;
 import vn.st.schoolmanagement.service.dto.StudentDTO;
 import vn.st.schoolmanagement.service.mapper.StudentMapper;
+
+import javax.persistence.criteria.Join;
 
 @Service
 @Transactional(readOnly = true)
@@ -66,8 +65,22 @@ public class StudentQueryService extends QueryService<Student> {
             if (criteria.getGender() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getGender(), Student_.gender));
             }
+
+            if (criteria.getSubjectName() != null) {
+                specification = specification.and(joinDetailSubject(criteria.getSubjectName().getEquals(),
+                    criteria.getDetailSubjectFinishTheSubject().getGreaterThan())
+                );
+            }
         }
         return specification;
     }
-
+//tìm kiếm điểm có môn học lớn hơn 8
+    public static Specification<Student> joinDetailSubject(String name, Double point) {
+        return (Specification<Student>) (root, query, cb) -> {
+            Join<Student, DetailSubject> detailSubject = root.join("detailSubjects");
+            Join<DetailSubject, Subject> detailSubjectJoin = detailSubject.join("subject");
+            return cb.and(cb.equal(detailSubjectJoin.get(Subject_.name), name)
+                ,cb.greaterThan(detailSubject.get(DetailSubject_.finishTheSubject),point));
+        };
+    }
 }

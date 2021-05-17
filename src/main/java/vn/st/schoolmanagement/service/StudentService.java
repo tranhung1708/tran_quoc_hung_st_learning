@@ -13,9 +13,11 @@ public interface StudentService {
 
     Page<StudentDTO> findAll(Pageable pageable);
 
-    Optional<StudentDTO> findOne(Long id);
+    Optional<StudentDTO> findOneById(Long id);
 
     void delete(Long id);
 
     List<StudentDTO> findAllByClazzId(Long classId);
+
+
 }

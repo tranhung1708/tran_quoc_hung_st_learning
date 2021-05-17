@@ -3,11 +3,12 @@ package vn.st.schoolmanagement.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "detail_subject")
+@Table(name = "detailSubject")
 public class DetailSubject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name = "mouth")
     private double mouth;
 

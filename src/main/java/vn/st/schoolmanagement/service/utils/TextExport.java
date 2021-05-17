@@ -4,17 +4,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import vn.st.schoolmanagement.service.ClazzService;
 import vn.st.schoolmanagement.service.DetailSubjectService;
+import vn.st.schoolmanagement.service.MailService;
 import vn.st.schoolmanagement.service.StudentService;
 import vn.st.schoolmanagement.service.dto.ClazzDTO;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
 import vn.st.schoolmanagement.service.dto.SchoolDTO;
 import vn.st.schoolmanagement.service.dto.StudentDTO;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TextExport {
@@ -22,11 +23,13 @@ public class TextExport {
     private final StudentService studentService;
     private final DetailSubjectService detailSubjectService;
     private final ClazzService clazzService;
+    private final MailService mailService;
 
-    public TextExport(StudentService studentService, DetailSubjectService detailSubjectService, ClazzService clazzService) {
+    public TextExport(StudentService studentService, DetailSubjectService detailSubjectService, ClazzService clazzService, MailService mailService) {
         this.studentService = studentService;
         this.detailSubjectService = detailSubjectService;
         this.clazzService = clazzService;
+        this.mailService = mailService;
     }
 
     public ByteArrayInputStream txtExportStudentDetailSubject(Page<SchoolDTO> schoolDTOS) {
@@ -89,5 +92,25 @@ public class TextExport {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void sendMailById(Long id){
+        Optional<StudentDTO> studentDTO = studentService.findOneById(id);
+        if (studentDTO.isPresent()){
+            StudentDTO student = studentDTO.get();
+            StringBuilder data = new StringBuilder();
+            data.append(DirectoryManagement.Name_Student).append(student.getNameStudent()).append(DirectoryManagement.Down_the_line);
+            data.append(DirectoryManagement.HEADER + DirectoryManagement.Down_the_line);
+            List<DetailSubjectDTO> detailSubjectDTOS = detailSubjectService.findAllByStudentId(student.getId());
+            for (DetailSubjectDTO dto : detailSubjectDTOS) {
+                data.append(dto.formatFileText()).append(DirectoryManagement.Down_the_line);
+            }
+            double subjectAvg = student.getDetailSubjects().stream().mapToDouble(DetailSubjectDTO::avgSubject).sum();
+            double avgStudent = subjectAvg / student.getDetailSubjects().size();
+            data.append(DirectoryManagement.Avg_Student).append(avgStudent).append(DirectoryManagement.Down_the_line);
+
+            student.setLoadFile(data.toString());
+            mailService.sendEmailFromTemplateDetailSubject(student);
+        }
     }
 }

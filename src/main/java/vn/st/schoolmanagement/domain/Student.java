@@ -34,8 +34,6 @@ public class Student {
     @JoinColumn(name = "id_clazz")
     private Clazz clazz;
 
-
-
     @OneToMany(mappedBy = "student")
     private Set<DetailSubject> detailSubjects;
 
@@ -99,6 +97,7 @@ public class Student {
     public Clazz getClazz() {
         return clazz;
     }
+
 
     public void setClazz(Clazz clazz) {
         this.clazz = clazz;

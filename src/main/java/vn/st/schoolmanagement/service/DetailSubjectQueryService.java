@@ -1,7 +1,6 @@
 package vn.st.schoolmanagement.service;
 
 import io.github.jhipster.service.QueryService;
-import liquibase.pro.packaged.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -13,12 +12,9 @@ import vn.st.schoolmanagement.domain.*;
 import vn.st.schoolmanagement.repository.DetailSubjectRepository;
 import vn.st.schoolmanagement.service.dto.DetailSubjectCriteria;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
-import vn.st.schoolmanagement.service.dto.StudentDTO;
 import vn.st.schoolmanagement.service.mapper.DetailSubjectMapper;
-
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import javax.persistence.metamodel.SingularAttribute;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -123,10 +119,8 @@ public class DetailSubjectQueryService extends QueryService<DetailSubject> {
 
     public static Specification<DetailSubject> joinStudentSubject(String name) {
         return (root, query, cb) -> {
-            Join<DetailSubject, Student> joinStudent = root.join("student");
-            Join<Student, Subject> joinSubject = joinStudent.join("subject");
+            Join<DetailSubject, Subject> joinSubject = root.join("subject");
             return cb.equal(joinSubject.get(Subject_.name), name);
         };
     }
-
 }
