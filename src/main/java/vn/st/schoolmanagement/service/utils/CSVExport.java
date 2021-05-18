@@ -20,12 +20,7 @@ public class CSVExport {
              CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), format)) {
             for (DetailSubjectDTO dto : detailSubjectDTOS) {
                 List<String> data = Arrays.asList(
-                    String.valueOf(dto.getId()),
-                    String.valueOf(dto.getSubject().getName()),
-                    String.valueOf(dto.getMouth()),
-                    String.valueOf(dto.getFifteenMinutes()),
-                    String.valueOf(dto.getOneLesson()),
-                    String.valueOf(dto.getFinishTheSubject())
+                    String.valueOf(dto.toString())
                 );
                 csvPrinter.printRecord(data);
             }

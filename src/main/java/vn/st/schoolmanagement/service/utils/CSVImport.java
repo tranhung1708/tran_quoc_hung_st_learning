@@ -18,11 +18,8 @@ public class CSVImport {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
                  CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
-
             List<DetailSubjectDTO> tutorials = new ArrayList<DetailSubjectDTO>();
-
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
-
             for (CSVRecord csvRecord : csvRecords) {
                 DetailSubjectDTO tutorial = new DetailSubjectDTO();
                 tutorial.setMouth(Double.parseDouble(csvRecord.get("mouth")));

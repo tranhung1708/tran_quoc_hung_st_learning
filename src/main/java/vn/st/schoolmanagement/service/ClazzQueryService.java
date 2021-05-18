@@ -10,12 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.st.schoolmanagement.domain.Clazz;
 import vn.st.schoolmanagement.domain.Clazz_;
-import vn.st.schoolmanagement.domain.Subject;
 import vn.st.schoolmanagement.repository.ClazzRepository;
 import vn.st.schoolmanagement.service.dto.ClazzCriteria;
 import vn.st.schoolmanagement.service.dto.ClazzDTO;
-import vn.st.schoolmanagement.service.dto.SubjectCriteria;
-import vn.st.schoolmanagement.service.dto.SubjectDTO;
 import vn.st.schoolmanagement.service.mapper.ClazzMapper;
 
 @Service

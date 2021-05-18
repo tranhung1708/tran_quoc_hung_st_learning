@@ -31,11 +31,6 @@ public class TextExport {
     public ByteArrayInputStream txtExportStudentDetailSubject(Page<SchoolDTO> schoolDTOS) {
         try {
             List<String> data = new ArrayList<>();
-            double checkLearning = 0;
-            double countStudentGood = 0;
-            double countStudentRather = 0;
-            double countStudentMedium = 0;
-            double countStudentGood1 = 0;
             for (SchoolDTO schoolDTO : schoolDTOS) {
                 data.add(schoolDTO.getNameSchools() + DirectoryManagement.Down_the_line);
                 List<ClazzDTO> schoolDTOList = clazzService.findAllByShoolId(schoolDTO.getIdSchool());
@@ -47,36 +42,36 @@ public class TextExport {
                         List<DetailSubjectDTO> detailSubjectDTOS = detailSubjectService.findAllByStudentId(student.getId());
                         for (DetailSubjectDTO dto : detailSubjectDTOS) {
                             data.add(dto.formatFileText() + DirectoryManagement.Down_the_line);
-                            checkLearning = checkLearning != 0 ? checkLearning : dto.checkLearning();
+                            DirectoryManagement.checkLearning = DirectoryManagement.checkLearning != DirectoryManagement.ZeroNumber ? DirectoryManagement.checkLearning : dto.checkLearning();
                         }
                         double subjectAvg = student.getDetailSubjects().stream().mapToDouble(DetailSubjectDTO::avgSubject).sum();
                         double avgStudent = subjectAvg / student.getDetailSubjects().size();
                         data.add(DirectoryManagement.Avg_Student + avgStudent + DirectoryManagement.Down_the_line);
 
-                        if (avgStudent >= 8.5) {
-                            countStudentGood++;
-                            countStudentGood1++;
+                        if (avgStudent >= DirectoryManagement.CompareBirthExcellent) {
+                            DirectoryManagement.countStudentGood++;
+                            DirectoryManagement.countStudentGood1++;
                             data.add(DirectoryManagement.Student_classification + DirectoryManagement.Good_standing + DirectoryManagement.Down_the_line);
                         }
-                        if (avgStudent >= 7.0 && checkLearning == 2) {
-                            countStudentRather++;
+                        if (avgStudent >= DirectoryManagement.Compare_Number && DirectoryManagement.checkLearning == DirectoryManagement.academic) {
+                            DirectoryManagement.countStudentRather++;
                             data.add(DirectoryManagement.Student_classification + DirectoryManagement.Academic_pretty + DirectoryManagement.Down_the_line);
-                        } else if (avgStudent < 7.0 && checkLearning == 3) {
-                            countStudentMedium++;
+                        } else if (avgStudent < DirectoryManagement.Compare_Number && DirectoryManagement.checkLearning == DirectoryManagement.medium) {
+                            DirectoryManagement.countStudentMedium++;
                             data.add(DirectoryManagement.Student_classification + DirectoryManagement.Learning_capacity_is_average + DirectoryManagement.Down_the_line);
                         }
                     }
-                    data.add(DirectoryManagement.Name_Class + dtoClazz.getNameClass() + DirectoryManagement.Down_the_line + DirectoryManagement.NumberStudentGood + countStudentGood + DirectoryManagement.Down_the_line);
-                    countStudentGood = 0;
+                    data.add(DirectoryManagement.Name_Class + dtoClazz.getNameClass() + DirectoryManagement.Down_the_line + DirectoryManagement.NumberStudentGood + DirectoryManagement.countStudentGood + DirectoryManagement.Down_the_line);
+                    DirectoryManagement.countStudentGood = DirectoryManagement.ZeroNumber;
                     data.add("--------------------------------------------------------------------" + DirectoryManagement.Down_the_line);
-                    data.add(DirectoryManagement.Name_Class + dtoClazz.getNameClass() + DirectoryManagement.Down_the_line + DirectoryManagement.NumberStudentRather + countStudentRather + DirectoryManagement.Down_the_line);
-                    countStudentRather = 0;
+                    data.add(DirectoryManagement.Name_Class + dtoClazz.getNameClass() + DirectoryManagement.Down_the_line + DirectoryManagement.NumberStudentRather + DirectoryManagement.countStudentRather + DirectoryManagement.Down_the_line);
+                    DirectoryManagement.countStudentRather = DirectoryManagement.ZeroNumber;
                     data.add("--------------------------------------------------------------------" + DirectoryManagement.Down_the_line);
-                    data.add(DirectoryManagement.Name_Class + dtoClazz.getNameClass() + DirectoryManagement.Down_the_line + DirectoryManagement.NumberStudentMedium + countStudentMedium + DirectoryManagement.Down_the_line);
-                    countStudentMedium = 0;
+                    data.add(DirectoryManagement.Name_Class + dtoClazz.getNameClass() + DirectoryManagement.Down_the_line + DirectoryManagement.NumberStudentMedium + DirectoryManagement.countStudentMedium + DirectoryManagement.Down_the_line);
+                    DirectoryManagement.countStudentMedium = DirectoryManagement.ZeroNumber;
                 }
-                data.add(DirectoryManagement.Total_number_of_excellent_students_of_the_whole_school + countStudentGood1 +DirectoryManagement.Down_the_line);
-                countStudentGood1 = 0;
+                data.add(DirectoryManagement.Total_number_of_excellent_students_of_the_whole_school + DirectoryManagement.countStudentGood1 +DirectoryManagement.Down_the_line);
+                DirectoryManagement.countStudentGood1 = DirectoryManagement.ZeroNumber;
             }
 
             ByteArrayOutputStream output = new ByteArrayOutputStream(1024);
