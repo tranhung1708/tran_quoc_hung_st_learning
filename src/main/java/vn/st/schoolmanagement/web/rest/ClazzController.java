@@ -11,12 +11,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import vn.st.schoolmanagement.domain.Clazz;
 import vn.st.schoolmanagement.service.ClazzQueryService;
 import vn.st.schoolmanagement.service.ClazzService;
 import vn.st.schoolmanagement.service.dto.ClazzCriteria;
 import vn.st.schoolmanagement.service.dto.ClazzDTO;
-import vn.st.schoolmanagement.service.dto.SubjectDTO;
 import vn.st.schoolmanagement.web.rest.errors.BadRequestAlertException;
 
 import java.net.URI;
@@ -39,7 +37,8 @@ public class ClazzController {
         this.clazzService = clazzService;
         this.clazzQueryService = clazzQueryService;
     }
-//Lấy dữ liệu
+
+    //Lấy dữ liệu
     @GetMapping("/get-all-clazz")
     public ResponseEntity<List<ClazzDTO>> getAllClazz(ClazzCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Clazz by criteria: {}", criteria);
@@ -48,14 +47,15 @@ public class ClazzController {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-//Xóa Lớp Học
+    //Xóa Lớp Học
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteClazz(@PathVariable Long id) {
         log.debug("REST request to delete Clazz : {}", id);
         clazzService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
-//Tạo mới lớp học
+
+    //Tạo mới lớp học
     @PostMapping("/create-clazz")
     public ResponseEntity<ClazzDTO> save(@RequestBody ClazzDTO clazzDTO) throws URISyntaxException {
         log.debug("REST request to save Clazz : {}", clazzDTO);
@@ -68,9 +68,9 @@ public class ClazzController {
             .body(result);
     }
 
-//Cập nhật lớp học
+    //Cập nhật lớp học
     @PutMapping("/update-clazz")
-    public ResponseEntity<ClazzDTO> updateClazz(@RequestBody ClazzDTO clazzDTO) throws URISyntaxException {
+    public ResponseEntity<ClazzDTO> updateClazz(@RequestBody ClazzDTO clazzDTO) {
         log.debug("REST request to update clazz : {}", clazzDTO);
         if (clazzDTO.getIdClazz() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

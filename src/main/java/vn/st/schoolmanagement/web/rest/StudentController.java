@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import vn.st.schoolmanagement.service.StudentQueryService;
 import vn.st.schoolmanagement.service.StudentService;
-import vn.st.schoolmanagement.service.dto.ClazzDTO;
 import vn.st.schoolmanagement.service.dto.StudentCriteria;
 import vn.st.schoolmanagement.service.dto.StudentDTO;
 import vn.st.schoolmanagement.web.rest.errors.BadRequestAlertException;
@@ -48,7 +47,7 @@ public class StudentController {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    //xóa student
+    //xóa student theo id
     @DeleteMapping("/delete-student/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         log.debug("REST request to delete Student : {}", id);
@@ -71,7 +70,7 @@ public class StudentController {
 
     //    chỉnh sửa student
     @PutMapping("/update-student")
-    public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO) throws URISyntaxException {
+    public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO) {
         log.debug("REST request to update student : {}", studentDTO);
         if (studentDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

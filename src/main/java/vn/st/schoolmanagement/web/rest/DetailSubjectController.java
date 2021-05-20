@@ -21,7 +21,6 @@ import vn.st.schoolmanagement.service.DetailSubjectQueryService;
 import vn.st.schoolmanagement.service.DetailSubjectService;
 import vn.st.schoolmanagement.service.dto.*;
 import vn.st.schoolmanagement.service.utils.SendMailById;
-import vn.st.schoolmanagement.service.utils.TextExport;
 import vn.st.schoolmanagement.web.rest.errors.BadRequestAlertException;
 import org.springframework.core.io.Resource;
 
@@ -74,7 +73,7 @@ public class DetailSubjectController {
 
     //Thêm danh sách điểm bằng một list
     @PostMapping("/create-list-detail-subject")
-    public ResponseEntity<List<DetailSubjectDTO>> saveList(@RequestBody List<DetailSubjectDTO> detailSubjectDTOS) {
+    public ResponseEntity<List<DetailSubjectDTO>> importDataList(@RequestBody List<DetailSubjectDTO> detailSubjectDTOS) {
         log.debug("REST request to save list DetailSubject : {}", detailSubjectDTOS);
         List<DetailSubjectDTO> detailSubjectDTOS1 = detailSubjectService.saveAll(detailSubjectDTOS);
         return new ResponseEntity<>(detailSubjectDTOS1, HttpStatus.CREATED);
@@ -82,7 +81,7 @@ public class DetailSubjectController {
 
     //thêm điểm bằng một file csv
     @PostMapping("/create-csv-detail-subject")
-    public ResponseEntity<DetailSubjectDTO> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<DetailSubjectDTO> importDataCsv(@RequestParam("file") MultipartFile file) {
         log.debug("REST request to save list DetailSubject : {}", file);
         csvService.save(file);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -90,9 +89,9 @@ public class DetailSubjectController {
 
     //Tải file điểm của từng học sinh bằng file text
     @GetMapping("/get-file-text")
-    public ResponseEntity<Resource> getFileText() {
+    public ResponseEntity<Resource> exportDataText() {
         String filename = "studentSubject.txt";
-        InputStreamResource file = new InputStreamResource(csvService.getFile());
+        InputStreamResource file = new InputStreamResource(csvService.exportDataText());
         return ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
             .contentType(MediaType.parseMediaType("text/plain"))
@@ -103,7 +102,7 @@ public class DetailSubjectController {
     @GetMapping("/get-file-csv")
     public ResponseEntity<Resource> getFileCSV() {
         String filename = "detailSubject.csv";
-        InputStreamResource file = new InputStreamResource(csvService.load());
+        InputStreamResource file = new InputStreamResource(csvService.exportDataCsv());
         return ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
             .contentType(MediaType.parseMediaType("application/csv"))
@@ -113,6 +112,9 @@ public class DetailSubjectController {
     //gửi gmail đến từng học sinh
     @GetMapping("/send-mail/{id}")
     public ResponseEntity<Student> sendMailByIdStudent(@PathVariable Long id) {
+        if (id == null){
+            log.debug("Id has been null : {}", id);
+        }
         sendMailById.sendMailById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

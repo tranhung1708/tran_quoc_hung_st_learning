@@ -28,15 +28,15 @@ public class SendMailById {
         if (studentDTO.isPresent()) {
             StudentDTO student = studentDTO.get();
             StringBuilder data = new StringBuilder();
-            data.append(DirectoryManagement.Name_Student).append(student.getNameStudent()).append(DirectoryManagement.Down_the_line);
-            data.append(DirectoryManagement.HEADER + DirectoryManagement.Down_the_line);
+            data.append(DirectoryManagement.nameStudent).append(student.getNameStudent()).append(DirectoryManagement.downTheLine);
+            data.append(DirectoryManagement.HEADER + DirectoryManagement.downTheLine);
             List<DetailSubjectDTO> detailSubjectDTOS = detailSubjectService.findAllByStudentId(student.getId());
             for (DetailSubjectDTO dto : detailSubjectDTOS) {
-                data.append(dto.formatFileText()).append(DirectoryManagement.Down_the_line);
+                data.append(dto.formatFileText()).append(DirectoryManagement.downTheLine);
             }
             double subjectAvg = student.getDetailSubjects().stream().mapToDouble(DetailSubjectDTO::avgSubject).sum();
             double avgStudent = subjectAvg / student.getDetailSubjects().size();
-            data.append(DirectoryManagement.Avg_Student).append(avgStudent).append(DirectoryManagement.Down_the_line);
+            data.append(DirectoryManagement.avgStudent).append(avgStudent).append(DirectoryManagement.downTheLine);
             student.setLoadFile(data.toString());
             mailService.sendEmailFromTemplateDetailSubject(student);
         }

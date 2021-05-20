@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +16,10 @@ import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
 public class CSVImport {
 
     public static List<DetailSubjectDTO> csvDetailSubject(InputStream is) {
-        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
              CSVParser csvParser = new CSVParser(fileReader,
-                 CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
-            List<DetailSubjectDTO> tutorials = new ArrayList<DetailSubjectDTO>();
+                 CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
+            List<DetailSubjectDTO> tutorials = new ArrayList<>();
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
                 DetailSubjectDTO tutorial = new DetailSubjectDTO();

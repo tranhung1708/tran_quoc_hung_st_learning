@@ -1,7 +1,6 @@
 package vn.st.schoolmanagement.service.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import vn.st.schoolmanagement.domain.Schools;
 import vn.st.schoolmanagement.service.dto.SchoolDTO;
 

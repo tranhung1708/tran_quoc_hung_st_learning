@@ -43,7 +43,7 @@ public class CSVServiceImpl implements FileService {
 
     //Export điểm học sinh ra file text
     @Override
-    public ByteArrayInputStream getFile() {
+    public ByteArrayInputStream exportDataText() {
         Page<SchoolDTO> schoolDTOS = schoolService.findAll(Pageable.unpaged());
         ByteArrayInputStream in = textExport.txtExportStudentDetailSubject(schoolDTOS);
         return in;
@@ -51,7 +51,7 @@ public class CSVServiceImpl implements FileService {
 
     //Export điểm học sinh ra file csv
     @Override
-    public ByteArrayInputStream load() {
+    public ByteArrayInputStream exportDataCsv() {
         Page<DetailSubjectDTO> detailSubjectDTOS = detailSubjectService.findAll(Pageable.unpaged());
         ByteArrayInputStream in = CSVExport.csvExportStudentDetailSubject(detailSubjectDTOS);
         return in;

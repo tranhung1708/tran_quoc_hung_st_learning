@@ -7,8 +7,8 @@ import java.io.ByteArrayInputStream;
 public interface FileService {
     void save(MultipartFile file);
 
-    ByteArrayInputStream getFile();
+    ByteArrayInputStream exportDataText();
 
-    ByteArrayInputStream load();
+    ByteArrayInputStream exportDataCsv();
 
 }

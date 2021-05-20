@@ -52,7 +52,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<SubjectDTO> findOne(Long id) {
+    public Optional<SubjectDTO> findOneById(Long id) {
         log.debug("Request to get Subject : {}", id);
         return subjectRepository.findById(id)
             .map(subjectMapper::toDto);

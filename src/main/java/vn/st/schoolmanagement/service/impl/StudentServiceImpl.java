@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.st.schoolmanagement.domain.Student;
-import vn.st.schoolmanagement.repository.ClazzRepository;
 import vn.st.schoolmanagement.repository.StudentRepository;
 import vn.st.schoolmanagement.service.StudentService;
 import vn.st.schoolmanagement.service.dto.StudentDTO;

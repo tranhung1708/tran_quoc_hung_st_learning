@@ -2,9 +2,7 @@ package vn.st.schoolmanagement.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import vn.st.schoolmanagement.domain.Clazz;
 import vn.st.schoolmanagement.domain.Student;
-import vn.st.schoolmanagement.service.dto.ClazzDTO;
 import vn.st.schoolmanagement.service.dto.StudentDTO;
 
 

@@ -35,7 +35,7 @@ public interface SubjectService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<SubjectDTO> findOne(Long id);
+    Optional<SubjectDTO> findOneById(Long id);
 
     /**
      * Delete the "id" subject.
