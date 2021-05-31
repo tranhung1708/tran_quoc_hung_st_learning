@@ -11,4 +11,5 @@ public interface FileService {
 
     ByteArrayInputStream exportDataCsv();
 
+    ByteArrayInputStream exportDataSchoolAll();
 }

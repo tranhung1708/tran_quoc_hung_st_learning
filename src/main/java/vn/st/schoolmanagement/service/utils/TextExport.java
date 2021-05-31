@@ -9,6 +9,7 @@ import vn.st.schoolmanagement.service.dto.ClazzDTO;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
 import vn.st.schoolmanagement.service.dto.SchoolDTO;
 import vn.st.schoolmanagement.service.dto.StudentDTO;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class TextExport {
         this.clazzService = clazzService;
     }
 
-    public ByteArrayInputStream txtExportStudentDetailSubject(Page<SchoolDTO> schoolDTOS) {
+    public ByteArrayInputStream txtExportStudentDetailSubjectSchoolAll(Page<SchoolDTO> schoolDTOS) {
         try {
             List<String> data = new ArrayList<>();
             for (SchoolDTO schoolDTO : schoolDTOS) {
@@ -70,7 +71,7 @@ public class TextExport {
                     data.add(DirectoryManagement.nameClass + dtoClazz.getNameClass() + DirectoryManagement.downTheLine + DirectoryManagement.numberStudentMedium + DirectoryManagement.countStudentMedium + DirectoryManagement.downTheLine);
                     DirectoryManagement.countStudentMedium = DirectoryManagement.zeroNumber;
                 }
-                data.add(DirectoryManagement.totalNumberOfExcellentStudentsOfTheWholeSchool + DirectoryManagement.countStudentGood1 +DirectoryManagement.downTheLine);
+                data.add(DirectoryManagement.totalNumberOfExcellentStudentsOfTheWholeSchool + DirectoryManagement.countStudentGood1 + DirectoryManagement.downTheLine);
                 DirectoryManagement.countStudentGood1 = DirectoryManagement.zeroNumber;
             }
 
@@ -81,6 +82,30 @@ public class TextExport {
             output.close();
             return new ByteArrayInputStream(output.toByteArray());
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public ByteArrayInputStream txtExportStudentDetailSubject(Page<StudentDTO> studentDTOList) {
+        try {
+            List<String> data = new ArrayList<>();
+            for (StudentDTO student : studentDTOList) {
+                data.add(DirectoryManagement.nameStudent + student.getNameStudent() + DirectoryManagement.downTheLine);
+                data.add(DirectoryManagement.HEADER + DirectoryManagement.downTheLine);
+                List<DetailSubjectDTO> detailSubjectDTOS = detailSubjectService.findAllByStudentId(student.getId());
+                for (DetailSubjectDTO dto : detailSubjectDTOS) {
+                    data.add(dto.formatFileText() + DirectoryManagement.downTheLine);
+                }
+            }
+            ByteArrayOutputStream output = new ByteArrayOutputStream(1024);
+            for (String record : data) {
+                output.write(record.getBytes());
+            }
+            output.close();
+            return new ByteArrayInputStream(output.toByteArray());
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

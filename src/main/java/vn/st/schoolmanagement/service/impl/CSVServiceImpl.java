@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import vn.st.schoolmanagement.service.*;
 import vn.st.schoolmanagement.service.dto.DetailSubjectDTO;
 import vn.st.schoolmanagement.service.dto.SchoolDTO;
+import vn.st.schoolmanagement.service.dto.StudentDTO;
 import vn.st.schoolmanagement.service.utils.CSVExport;
 import vn.st.schoolmanagement.service.utils.CSVImport;
 import vn.st.schoolmanagement.service.utils.TextExport;
@@ -22,12 +23,14 @@ public class CSVServiceImpl implements FileService {
     private final DetailSubjectService detailSubjectService;
 
     private final SchoolService schoolService;
+    private final StudentService studentService;
     private final TextExport textExport;
 
 
-    public CSVServiceImpl(DetailSubjectService detailSubjectService,SchoolService schoolService, TextExport textExport) {
+    public CSVServiceImpl(DetailSubjectService detailSubjectService, SchoolService schoolService, StudentService studentService, TextExport textExport) {
         this.detailSubjectService = detailSubjectService;
         this.schoolService = schoolService;
+        this.studentService = studentService;
         this.textExport = textExport;
     }
 
@@ -44,7 +47,7 @@ public class CSVServiceImpl implements FileService {
     //Export điểm học sinh ra file text
     @Override
     public ByteArrayInputStream exportDataText() {
-        Page<SchoolDTO> schoolDTOS = schoolService.findAll(Pageable.unpaged());
+        Page<StudentDTO> schoolDTOS = studentService.findAll(Pageable.unpaged());
         ByteArrayInputStream in = textExport.txtExportStudentDetailSubject(schoolDTOS);
         return in;
     }
@@ -54,6 +57,13 @@ public class CSVServiceImpl implements FileService {
     public ByteArrayInputStream exportDataCsv() {
         Page<DetailSubjectDTO> detailSubjectDTOS = detailSubjectService.findAll(Pageable.unpaged());
         ByteArrayInputStream in = CSVExport.csvExportStudentDetailSubject(detailSubjectDTOS);
+        return in;
+    }
+
+
+    public ByteArrayInputStream exportDataSchoolAll() {
+        Page<SchoolDTO> schoolDTOS = schoolService.findAll(Pageable.unpaged());
+        ByteArrayInputStream in = textExport.txtExportStudentDetailSubjectSchoolAll(schoolDTOS);
         return in;
     }
 }

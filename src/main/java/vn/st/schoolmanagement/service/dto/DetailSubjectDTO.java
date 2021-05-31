@@ -44,6 +44,7 @@ public class DetailSubjectDTO implements Serializable {
     }
 
     public String formatFileText() {
+        String.format("%7s | %7s | %7s | %7s | %7s | %7s" , "{Môn Học}" , "{Miệng}","{15 Phút}", "{1 Tiết}" , "{Kết thúc môn}", "{Trung Bình Môn}");
         return String.format("%7s | %5s | %7s | %6s | %10s |%10s",
             subject.getName(),
             this.getMouth(),

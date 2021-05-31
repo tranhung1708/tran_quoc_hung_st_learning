@@ -109,6 +109,17 @@ public class DetailSubjectController {
             .body(file);
     }
 
+
+    @GetMapping("/get-file-data-school-all")
+    public ResponseEntity<Resource> exportDataSchoolAll() {
+        String filename = "studentSubject.txt";
+        InputStreamResource file = new InputStreamResource(csvService.exportDataSchoolAll());
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+            .contentType(MediaType.parseMediaType("text/plain"))
+            .body(file);
+    }
+
     //gửi gmail đến từng học sinh
     @GetMapping("/send-mail/{id}")
     public ResponseEntity<Student> sendMailByIdStudent(@PathVariable Long id) {
