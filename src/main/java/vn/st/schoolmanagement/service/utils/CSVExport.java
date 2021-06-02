@@ -1,7 +1,7 @@
 package vn.st.schoolmanagement.service.utils;
 
 import java.io.*;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -19,8 +19,14 @@ public class CSVExport {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream();
              CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), format)) {
             for (DetailSubjectDTO dto : detailSubjectDTOS) {
-                List<String> data = Collections.singletonList(
-                    String.valueOf(dto.toString())
+                List<String> data = Arrays.asList(
+                    String.valueOf(dto.getId()),
+                    String.valueOf(dto.getSubject().getName()),
+                    String.valueOf(dto.getMouth()),
+                    String.valueOf(dto.getFifteenMinutes()),
+                    String.valueOf(dto.getOneLesson()),
+                    String.valueOf(dto.getFinishTheSubject()),
+                    String.valueOf(dto.avgSubject())
                 );
                 csvPrinter.printRecord(data);
             }
